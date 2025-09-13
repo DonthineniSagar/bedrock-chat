@@ -22,13 +22,13 @@ Parameters:
     Default: "[]"
   BedrockRegion:
     Type: String
-    Default: "us-east-1"
+    Default: "ap-southeast-2"
   CdkJsonOverride:
     Type: String
     Default: "{}"
   RepoUrl:
     Type: String
-    Default: "https://github.com/aws-samples/bedrock-chat.git"
+    Default: "https://github.com/DonthineniSagar/bedrock-chat.git"
   Version:
     Type: String
     Default: "v3"

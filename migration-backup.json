@@ -1,0 +1,23 @@
+{
+  "originalConfigurations": {
+    "repositoryUrl": "https://github.com/aws-samples/bedrock-chat.git",
+    "defaultRegion": "us-east-1",
+    "originalCdkJson": {
+      "bedrockRegion": "us-east-1",
+      "enableRagReplicas": true,
+      "enableBotStoreReplicas": false
+    },
+    "originalDeployYml": {
+      "repoUrl": "https://github.com/aws-samples/bedrock-chat.git",
+      "bedrockRegion": "us-east-1"
+    }
+  },
+  "migrationDate": "2025-01-13",
+  "targetRepository": "https://github.com/DonthineniSagar/bedrock-chat.git",
+  "targetRegion": "ap-southeast-2",
+  "costOptimizations": {
+    "enableRagReplicas": false,
+    "enableBotStoreReplicas": false,
+    "rationale": "Cost optimization for ap-southeast-2 deployment"
+  }
+}
