@@ -15,12 +15,13 @@ bedrockChatParams.set("default", {
   alternateDomainName: "chat.cloudpro-digital.co.nz",
   hostedZoneId: "Z1047836YHDM15Z2GKR5",
   
-  // Cost-optimized model selection (fewer models = lower costs)
+  // Cost-optimized model selection with Claude Sonnet added
   globalAvailableModels: [
-    "claude-v3.5-haiku", // Cheapest Claude model
-    "amazon-nova-lite",  // Cheapest Nova model
-    "amazon-nova-micro"  // Even cheaper option
-  ], // Limited to cheapest models for maximum cost savings
+    "claude-v3.5-sonnet", // Premium Claude model (added back)
+    "claude-v3.5-haiku",  // Cheapest Claude model
+    "amazon-nova-lite",   // Cheapest Nova model
+    "amazon-nova-micro"   // Ultra-cheap option
+  ], // Balanced selection with Claude Sonnet for better capabilities
   
   // Security settings
   selfSignUpEnabled: true, // Enable for dev environment convenience
@@ -35,7 +36,8 @@ bedrockChatParams.set("dev", {
   enableBedrockCrossRegionInference: false, // Disable for dev to reduce complexity
   selfSignUpEnabled: true, // Allow self-signup for dev testing
   globalAvailableModels: [
-    "claude-v3.5-haiku", // Use cheaper model for development
+    "claude-v3.5-sonnet", // Premium Claude model
+    "claude-v3.5-haiku",  // Cheaper Claude model for development
     "amazon-nova-lite"
   ],
 });
