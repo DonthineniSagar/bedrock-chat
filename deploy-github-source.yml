@@ -1,5 +1,5 @@
 AWSTemplateFormatVersion: "2010-09-09"
-Description: A template to deploy the Bedrock-Claude Chat application with customizable parameters.
+Description: A template to deploy the Bedrock-Claude Chat application using CodeBuild GitHub source integration.
 
 Parameters:
   AllowSelfRegister:
@@ -10,10 +10,10 @@ Parameters:
     Default: "false"
   Ipv4Ranges:
     Type: String
-    Default: '["0.0.0.0/1","128.0.0.0/1"]' # Set default values based on current config
+    Default: '["0.0.0.0/1","128.0.0.0/1"]'
   Ipv6Ranges:
     Type: String
-    Default: '["0000:0000:0000:0000:0000:0000:0000:0000/1","8000:0000:0000:0000:0000:0000:0000:0000/1"]' # Set default values based on current config
+    Default: '["0000:0000:0000:0000:0000:0000:0000:0000/1","8000:0000:0000:0000:0000:0000:0000:0000/1"]'
   DisableIpv6:
     Type: String
     Default: "false"
@@ -22,16 +22,22 @@ Parameters:
     Default: "[]"
   BedrockRegion:
     Type: String
-    Default: "us-east-1"
+    Default: "ap-southeast-2"
   CdkJsonOverride:
     Type: String
     Default: "{}"
-  RepoUrl:
+  GitHubOwner:
     Type: String
-    Default: "https://github.com/DonthineniSagar/bedrock-chat.git"
-  Version:
+    Default: "DonthineniSagar"
+    Description: GitHub repository owner/organization
+  GitHubRepo:
+    Type: String
+    Default: "bedrock-chat"
+    Description: GitHub repository name
+  GitHubBranch:
     Type: String
     Default: "v3"
+    Description: GitHub branch to build from
 
 Resources:
   ProjectRole:
@@ -50,6 +56,7 @@ Resources:
             - - "arn:"
               - Ref: AWS::Partition
               - :iam::aws:policy/AdministratorAccess
+
   ProjectRoleDefaultPolicy:
     Type: AWS::IAM::Policy
     Properties:
@@ -105,6 +112,7 @@ Resources:
       PolicyName: ProjectRoleDefaultPolicy
       Roles:
         - Ref: ProjectRole
+
   Project:
     Type: AWS::CodeBuild::Project
     Properties:
@@ -136,15 +144,14 @@ Resources:
             Value: !Ref BedrockRegion
           - Name: CDK_JSON_OVERRIDE
             Value: !Ref CdkJsonOverride
-          - Name: REPO_URL
-            Value: !Ref RepoUrl
-          - Name: VERSION
-            Value: !Ref Version
       ServiceRole:
         Fn::GetAtt:
           - ProjectRole
           - Arn
       Source:
+        Type: GITHUB
+        Location: !Sub "https://github.com/${GitHubOwner}/${GitHubRepo}.git"
+        GitCloneDepth: 1
         BuildSpec: |-
           {
             "version": 0.2,
@@ -158,8 +165,8 @@ Resources:
               "build": {
                 "commands": [
                   "echo 'Build phase...'",
-                  "git clone --branch $VERSION $REPO_URL bedrock-chat",
-                  "cd bedrock-chat",
+                  "echo 'Source already available in CodeBuild workspace'",
+                  "pwd && ls -la",
                   "if [ \"$ALLOW_SELF_REGISTER\" = \"false\" ]; then sed -i 's/\"selfSignUpEnabled\": true/\"selfSignUpEnabled\": false/' cdk/cdk.json; fi",
                   "if [ \"$ENABLE_LAMBDA_SNAPSTART\" = \"false\" ]; then sed -i 's/\"enableLambdaSnapStart\": true/\"enableLambdaSnapStart\": false/' cdk/cdk.json; fi",
                   "if [ ! -z \"$IPV4_RANGES\" ]; then jq --arg ipv4 \"$IPV4_RANGES\" '.context.allowedIpV4AddressRanges = ($ipv4 | split(\",\"))' cdk/cdk.json > temp.json && mv temp.json cdk/cdk.json; fi",
@@ -176,7 +183,7 @@ Resources:
               }
             }
           }
-        Type: NO_SOURCE
+
 Outputs:
   ProjectName:
     Value:

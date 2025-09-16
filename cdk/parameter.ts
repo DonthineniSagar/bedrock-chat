@@ -2,27 +2,33 @@ import { BedrockChatParametersInput } from "./lib/utils/parameter-models";
 
 export const bedrockChatParams = new Map<string, BedrockChatParametersInput>();
 
-// Cost-optimized configuration for ap-southeast-2 region
-// Default environment with cost optimizations
+// Maximum cost savings configuration for us-east-1 region with custom domain
+// Default environment optimized for development with maximum cost savings
 bedrockChatParams.set("default", {
-  bedrockRegion: "ap-southeast-2",
-  enableRagReplicas: false, // Cost saving - disable replicas for default environment
+  bedrockRegion: "us-east-1",
+  enableRagReplicas: false, // Cost saving - disable replicas
   enableBotStoreReplicas: false, // Cost saving - disable bot store replicas
-  enableLambdaSnapStart: true, // Keep enabled for performance (ap-southeast-2 supports it)
-  enableBedrockCrossRegionInference: true, // Enable for better availability
+  enableLambdaSnapStart: false, // DISABLED - Save on SnapStart charges for dev environment
+  enableBedrockCrossRegionInference: false, // Disable for dev to reduce complexity and costs
+  
+  // Custom domain configuration
+  alternateDomainName: "chat.cloudpro-digital.co.nz",
+  hostedZoneId: "Z1047836YHDM15Z2GKR5",
+  
+  // Cost-optimized model selection (fewer models = lower costs)
   globalAvailableModels: [
-    "claude-v3.5-sonnet",
-    "claude-v3.5-haiku", 
-    "claude-v3-haiku",
-    "amazon-nova-pro",
-    "amazon-nova-lite",
-    "amazon-nova-micro"
-  ], // Limit to commonly used models to reduce costs
+    "claude-v3.5-haiku", // Cheapest Claude model
+    "amazon-nova-lite",  // Cheapest Nova model
+    "amazon-nova-micro"  // Even cheaper option
+  ], // Limited to cheapest models for maximum cost savings
+  
+  // Security settings
+  selfSignUpEnabled: true, // Enable for dev environment convenience
 });
 
 // Development environment - maximum cost savings
 bedrockChatParams.set("dev", {
-  bedrockRegion: "ap-southeast-2",
+  bedrockRegion: "us-east-1",
   enableRagReplicas: false, // Cost saving for dev environment
   enableBotStoreReplicas: false, // Cost saving for dev environment
   enableLambdaSnapStart: false, // Disable to save on SnapStart charges in dev
@@ -36,7 +42,7 @@ bedrockChatParams.set("dev", {
 
 // Production environment - balanced performance and cost
 bedrockChatParams.set("prod", {
-  bedrockRegion: "ap-southeast-2", 
+  bedrockRegion: "us-east-1", 
   enableRagReplicas: true, // Enable for production availability
   enableBotStoreReplicas: true, // Enable for production availability
   enableLambdaSnapStart: true, // Enable for production performance

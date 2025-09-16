@@ -51,19 +51,40 @@ bedrockChatParams.set("prod", {
 
 ## 🚀 Deployment Instructions
 
-### Quick Deployment (Recommended)
-```bash
-# 1. Clone your private repository
-git clone https://github.com/DonthineniSagar/bedrock-chat.git
-cd bedrock-chat
+### Option 1: Private Repository with CodeBuild (Recommended)
 
-# 2. Deploy with cost-optimized settings
-./bin.sh --bedrock-region ap-southeast-2 --cdk-json-override '{
-  "context": {
-    "enableRagReplicas": false,
-    "enableBotStoreReplicas": false
-  }
-}'
+Since you now have a private repository, use the secure CodeBuild deployment:
+
+#### Step 1: Create GitHub Personal Access Token
+1. Go to https://github.com/settings/tokens
+2. Generate new token (classic) with `repo` scope
+3. Copy the token
+
+#### Step 2: Deploy via CloudFormation
+```bash
+# Set your GitHub token
+export GITHUB_TOKEN="ghp_your_token_here"
+
+# Deploy with cost optimization
+aws cloudformation create-stack \
+  --stack-name bedrock-chat-private \
+  --template-body file://deploy-private-repo.yml \
+  --parameters \
+    ParameterKey=GitHubToken,ParameterValue=$GITHUB_TOKEN \
+    ParameterKey=BedrockRegion,ParameterValue=ap-southeast-2 \
+    ParameterKey=CdkJsonOverride,ParameterValue='{"context":{"enableRagReplicas":false,"enableBotStoreReplicas":false}}' \
+  --capabilities CAPABILITY_IAM \
+  --region ap-southeast-2
+```
+
+#### Step 3: Automated Deployment Script
+```bash
+# Make script executable
+chmod +x deploy-private.sh
+
+# Set token and run
+export GITHUB_TOKEN="ghp_your_token_here"
+./deploy-private.sh
 ```
 
 ### Manual CDK Deployment
