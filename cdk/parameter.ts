@@ -15,14 +15,15 @@ bedrockChatParams.set("default", {
   alternateDomainName: "chat.cloudpro-digital.co.nz",
   hostedZoneId: "Z1047836YHDM15Z2GKR5",
   
-  // Premium model selection with Claude 4.0 added
+  // Premium model selection with Claude 4.0 models added
   globalAvailableModels: [
-    "claude-v4-opus",     // Claude 4.0 - Most advanced model (added!)
-    "claude-v3.5-sonnet", // Premium Claude model
-    "claude-v3.5-haiku",  // Fast & efficient Claude model
+    "claude-v4-opus",     // Claude 4.0 Opus - Most advanced model
+    "claude-v4-sonnet",   // Claude 4.0 Sonnet - Balanced performance (added!)
+    "claude-v3.5-sonnet", // Claude 3.5 Sonnet - Premium model
+    "claude-v3.5-haiku",  // Claude 3.5 Haiku - Fast & efficient
     "amazon-nova-lite",   // Multimodal Nova model
     "amazon-nova-micro"   // Ultra-cheap option
-  ], // Premium selection with Claude 4.0 for best capabilities
+  ], // Premium selection with both Claude 4.0 models for best capabilities
   
   // Security settings
   selfSignUpEnabled: true, // Enable for dev environment convenience
@@ -37,9 +38,10 @@ bedrockChatParams.set("dev", {
   enableBedrockCrossRegionInference: false, // Disable for dev to reduce complexity
   selfSignUpEnabled: true, // Allow self-signup for dev testing
   globalAvailableModels: [
-    "claude-v4-opus",     // Claude 4.0 - Most advanced model
-    "claude-v3.5-sonnet", // Premium Claude model
-    "claude-v3.5-haiku",  // Efficient Claude model for development
+    "claude-v4-opus",     // Claude 4.0 Opus - Most advanced model
+    "claude-v4-sonnet",   // Claude 4.0 Sonnet - Balanced performance
+    "claude-v3.5-sonnet", // Claude 3.5 Sonnet - Premium model
+    "claude-v3.5-haiku",  // Claude 3.5 Haiku - Efficient for development
     "amazon-nova-lite"
   ],
 });
@@ -53,11 +55,12 @@ bedrockChatParams.set("prod", {
   enableBedrockCrossRegionInference: true, // Enable for production resilience
   selfSignUpEnabled: false, // Disable self-signup for production security
   globalAvailableModels: [
-    "claude-v4-opus",     // Claude 4.0 - Most advanced model
-    "claude-v3.5-sonnet",
-    "claude-v3.5-haiku",
-    "claude-v3-haiku",
-    "amazon-nova-pro",
-    "amazon-nova-lite"
+    "claude-v4-opus",     // Claude 4.0 Opus - Most advanced model
+    "claude-v4-sonnet",   // Claude 4.0 Sonnet - Balanced performance
+    "claude-v3.5-sonnet", // Claude 3.5 Sonnet
+    "claude-v3.5-haiku",  // Claude 3.5 Haiku
+    "claude-v3-haiku",    // Claude 3 Haiku
+    "amazon-nova-pro",    // Nova Pro
+    "amazon-nova-lite"    // Nova Lite
   ],
 });
