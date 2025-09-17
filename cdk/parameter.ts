@@ -15,15 +15,17 @@ bedrockChatParams.set("default", {
   alternateDomainName: "chat.cloudpro-digital.co.nz",
   hostedZoneId: "Z1047836YHDM15Z2GKR5",
 
-  // Working Claude model selection (removed models requiring inference profiles)
+  // Complete Claude model selection with cross-region inference disabled
   globalAvailableModels: [
-    "claude-v4-opus",        // Claude 4.0 Opus - Most advanced model (works with direct access)
+    "claude-v4-opus",        // Claude 4.0 Opus - Most advanced model
+    "claude-v4-sonnet",      // Claude 4.0 Sonnet - Balanced performance
+    "claude-v3.7-sonnet",    // Claude 3.7 Sonnet - Enhanced capabilities
     "claude-v3.5-sonnet-v2", // Claude 3.5 Sonnet v2 - Improved version
     "claude-v3.5-sonnet",    // Claude 3.5 Sonnet - Premium model
     "claude-v3.5-haiku",     // Claude 3.5 Haiku - Fast & efficient
     "amazon-nova-lite",      // Multimodal Nova model
     "amazon-nova-micro"      // Ultra-cheap option
-  ], // Working models with direct on-demand access
+  ], // All Claude models with direct access (no cross-region inference)
 
   // Security settings
   selfSignUpEnabled: true, // Enable for dev environment convenience
@@ -39,6 +41,8 @@ bedrockChatParams.set("dev", {
   selfSignUpEnabled: true, // Allow self-signup for dev testing
   globalAvailableModels: [
     "claude-v4-opus",        // Claude 4.0 Opus - Most advanced model
+    "claude-v4-sonnet",      // Claude 4.0 Sonnet - Balanced performance
+    "claude-v3.7-sonnet",    // Claude 3.7 Sonnet - Enhanced capabilities
     "claude-v3.5-sonnet-v2", // Claude 3.5 Sonnet v2 - Improved version
     "claude-v3.5-sonnet",    // Claude 3.5 Sonnet - Premium model
     "claude-v3.5-haiku",     // Claude 3.5 Haiku - Efficient for development
@@ -52,10 +56,12 @@ bedrockChatParams.set("prod", {
   enableRagReplicas: true, // Enable for production availability
   enableBotStoreReplicas: true, // Enable for production availability
   enableLambdaSnapStart: true, // Enable for production performance
-  enableBedrockCrossRegionInference: true, // Enable for production resilience
+  enableBedrockCrossRegionInference: false, // Disabled - no cross-region inference needed
   selfSignUpEnabled: false, // Disable self-signup for production security
   globalAvailableModels: [
     "claude-v4-opus",        // Claude 4.0 Opus - Most advanced model
+    "claude-v4-sonnet",      // Claude 4.0 Sonnet - Balanced performance
+    "claude-v3.7-sonnet",    // Claude 3.7 Sonnet - Enhanced capabilities
     "claude-v3.5-sonnet-v2", // Claude 3.5 Sonnet v2 - Improved version
     "claude-v3.5-sonnet",    // Claude 3.5 Sonnet
     "claude-v3.5-haiku",     // Claude 3.5 Haiku
